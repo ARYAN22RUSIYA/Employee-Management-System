@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using Study_Project.Context;
+﻿using Study_Project.Context;
 using Study_Project.Interfaces;
 using Study_Project.Models;
 
@@ -20,7 +18,7 @@ namespace Study_Project.Services
             return _context.Employees.ToList();
         }
 
-        // ✅ New: Fetch Employee by ID
+        
         public Employee GetEmployeeById(int id)
         {
             return _context.Employees.FirstOrDefault(e => e.Id == id);

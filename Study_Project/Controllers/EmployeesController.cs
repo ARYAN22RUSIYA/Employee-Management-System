@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Study_Project.Interfaces;
 using Study_Project.Models;
-using System.Collections.Generic;
 
 namespace Study_Project.Controllers
 {
@@ -20,7 +19,7 @@ namespace Study_Project.Controllers
         [HttpGet]
         [Authorize(Roles = "User,Admin")]
         [ProducesResponseType(typeof(List<Employee>), 200)]
-        [ProducesResponseType(403)]  // ✅ Document 403 error
+        [ProducesResponseType(403)]  
         public List<Employee> GetEmployees()
         {
             return _employeeService.GetEmployeeDetails();
@@ -30,7 +29,7 @@ namespace Study_Project.Controllers
         [Authorize(Roles = "User,Admin")]
         [ProducesResponseType(typeof(Employee), 200)]
         [ProducesResponseType(404)]
-        [ProducesResponseType(403)]  // ✅ Document 403 error
+        [ProducesResponseType(403)]  
         public IActionResult GetEmployeeById(int id)
         {
             var employee = _employeeService.GetEmployeeById(id);
@@ -43,7 +42,7 @@ namespace Study_Project.Controllers
         [HttpPost]
         [Authorize]
         [ProducesResponseType(typeof(Employee), 201)]
-        [ProducesResponseType(403)]  // ✅ Document 403 error
+        [ProducesResponseType(403)] 
         public Employee AddEmployee([FromBody] Employee emp)
         {
             return _employeeService.AddEmployee(emp);
@@ -53,7 +52,7 @@ namespace Study_Project.Controllers
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Employee), 200)]
         [ProducesResponseType(404)]
-        [ProducesResponseType(403)]  // ✅ Document 403 error
+        [ProducesResponseType(403)]
         public IActionResult UpdateEmployee(int id, [FromBody] Employee emp)
         {
             var updatedEmployee = _employeeService.UpdateEmployee(id, emp);
@@ -67,7 +66,7 @@ namespace Study_Project.Controllers
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        [ProducesResponseType(403)]  // ✅ Document 403 error
+        [ProducesResponseType(403)]  
         public IActionResult DeleteEmployee(int id)
         {
             var isDeleted = _employeeService.DeleteEmployee(id);

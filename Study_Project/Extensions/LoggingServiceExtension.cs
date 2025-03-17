@@ -7,7 +7,7 @@ namespace Study_Project.Extensions
         public static void AddSerilogLogging(this WebApplicationBuilder builder)
         {
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(builder.Configuration) // ✅ Reads log settings from appsettings.json
+                .ReadFrom.Configuration(builder.Configuration) 
                 .CreateLogger();
 
             builder.Host.UseSerilog();

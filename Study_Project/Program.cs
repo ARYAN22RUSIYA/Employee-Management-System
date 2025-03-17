@@ -2,16 +2,14 @@
 using Study_Project.Interfaces;
 using Study_Project.Services;
 using Study_Project.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using JWT_Authentication_Authorization.Services;
+using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Use Extension to Configure Logging
 builder.AddSerilogLogging();
 
-// ✅ Add Services to the Container
 builder.Services.AddDbContext<JwtContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
@@ -21,14 +19,19 @@ builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// ✅ Use Extension for Authentication & Swagger
+
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddSwaggerDocumentation();
+builder.Services.AddCorsPolicy(builder.Configuration); 
+builder.Services.AddRateLimiting(builder.Configuration); 
 
 var app = builder.Build();
 
-// ✅ Use Middleware for Authentication & Swagger
 app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigins"); 
+app.UseIpRateLimiting(); 
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSwaggerDocumentation();
