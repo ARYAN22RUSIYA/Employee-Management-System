@@ -14,6 +14,8 @@ builder.Services.AddIdentityConfiguration(builder.Configuration)
 
 // Register Services
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 // Add core services
 builder.Services.AddControllers();
