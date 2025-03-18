@@ -1,18 +1,13 @@
-﻿using Study_Project.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Study_Project.Models;
 
 namespace Study_Project.Context
 {
-    public class JwtContext : DbContext
+    public class JwtContext : IdentityDbContext<IdentityUser>
     {
-        public JwtContext(DbContextOptions<JwtContext> options): base(options)
-        {
-            
-        }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
+        public JwtContext(DbContextOptions options) : base(options) { }
         public DbSet<Employee> Employees { get; set; }
     }
-
 }

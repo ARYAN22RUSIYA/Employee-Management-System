@@ -2,7 +2,7 @@
 
 namespace Study_Project.Extensions
 {
-    public static class LoggingServiceExtension
+    public static class LoggingExtension
     {
         public static void AddSerilogLogging(this WebApplicationBuilder builder)
         {

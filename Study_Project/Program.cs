@@ -1,39 +1,39 @@
-﻿using Study_Project.Context;
+﻿using AspNetCoreRateLimit;
+using Study_Project.Extensions;
 using Study_Project.Interfaces;
 using Study_Project.Services;
-using Study_Project.Extensions;
-using Microsoft.EntityFrameworkCore;
-using JWT_Authentication_Authorization.Services;
-using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add Logging
 builder.AddSerilogLogging();
 
-builder.Services.AddDbContext<JwtContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
+// Add Identity & JWT
+builder.Services.AddIdentityConfiguration(builder.Configuration)
+                .AddJwtAuthentication(builder.Configuration);
 
-builder.Services.AddTransient<IAuthService, AuthService>();
+// Register Services
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 
+// Add core services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+// Authorization Policies
+builder.Services.AddCustomAuthorization();
 
-builder.Services.AddJwtAuthentication(builder.Configuration);
+// Swagger, CORS, Rate Limiting
 builder.Services.AddSwaggerDocumentation();
-builder.Services.AddCorsPolicy(builder.Configuration); 
-builder.Services.AddRateLimiting(builder.Configuration); 
+builder.Services.AddCorsPolicy(builder.Configuration);
+builder.Services.AddRateLimiting(builder.Configuration);
 
 var app = builder.Build();
 
+// Middleware Pipeline
 app.UseHttpsRedirection();
-
 app.UseGlobalExceptionMiddleware();
-
-app.UseCors("AllowSpecificOrigins"); 
-app.UseIpRateLimiting(); 
-
+app.UseCors("AllowSpecificOrigins");
+app.UseIpRateLimiting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSwaggerDocumentation();

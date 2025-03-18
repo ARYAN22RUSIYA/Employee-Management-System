@@ -1,6 +1,6 @@
 ﻿namespace Study_Project.Extensions
 {
-    public static class CorsServiceExtension
+    public static class CorsExtension
     {
         public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
         {

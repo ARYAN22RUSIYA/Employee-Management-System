@@ -1,8 +1,8 @@
 ﻿namespace Study_Project.Models
 {
-    public class UserRole
+    public class Login
     {
         public string Username { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 }

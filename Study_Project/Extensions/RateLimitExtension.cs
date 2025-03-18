@@ -2,7 +2,7 @@
 
 namespace Study_Project.Extensions
 {
-    public static class RateLimitingServiceExtension
+    public static class RateLimitExtension
     {
         public static IServiceCollection AddRateLimiting(this IServiceCollection services, IConfiguration configuration)
         {

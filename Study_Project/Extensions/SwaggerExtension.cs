@@ -2,7 +2,7 @@
 
 namespace Study_Project.Extensions
 {
-    public static class SwaggerServiceExtension
+    public static class SwaggerExtension
     {
         public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
         {
