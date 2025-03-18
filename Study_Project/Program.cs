@@ -29,6 +29,8 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
+app.UseGlobalExceptionMiddleware();
+
 app.UseCors("AllowSpecificOrigins"); 
 app.UseIpRateLimiting(); 
 
