@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Study_Project.Interfaces;
 using Study_Project.Models;
+using System.Collections.Generic;
 
 namespace Study_Project.Controllers
 {
@@ -17,19 +18,19 @@ namespace Study_Project.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User,Admin")]
+        [Authorize(Policy = "UserPolicy")]
         [ProducesResponseType(typeof(List<Employee>), 200)]
-        [ProducesResponseType(403)]  
+        [ProducesResponseType(403)]
         public List<Employee> GetEmployees()
         {
             return _employeeService.GetEmployeeDetails();
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "User,Admin")]
+        [Authorize(Policy = "UserPolicy")]
         [ProducesResponseType(typeof(Employee), 200)]
         [ProducesResponseType(404)]
-        [ProducesResponseType(403)]  
+        [ProducesResponseType(403)]
         public IActionResult GetEmployeeById(int id)
         {
             var employee = _employeeService.GetEmployeeById(id);
@@ -40,16 +41,16 @@ namespace Study_Project.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Policy = "UserPolicy")]
         [ProducesResponseType(typeof(Employee), 201)]
-        [ProducesResponseType(403)] 
+        [ProducesResponseType(403)]
         public Employee AddEmployee([FromBody] Employee emp)
         {
             return _employeeService.AddEmployee(emp);
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "AdminPolicy")]
         [ProducesResponseType(typeof(Employee), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(403)]
@@ -62,11 +63,12 @@ namespace Study_Project.Controllers
             return Ok(updatedEmployee);
         }
 
+        
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "AdminPolicy")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        [ProducesResponseType(403)]  
+        [ProducesResponseType(403)]
         public IActionResult DeleteEmployee(int id)
         {
             var isDeleted = _employeeService.DeleteEmployee(id);
