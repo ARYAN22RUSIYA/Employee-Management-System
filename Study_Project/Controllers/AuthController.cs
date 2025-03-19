@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Study_Project.Interfaces;
 using Study_Project.Models;
-using System.Threading.Tasks;
 
 namespace Study_Project.Controllers
 {
@@ -31,6 +29,7 @@ namespace Study_Project.Controllers
         }
 
         [HttpPost("add-role")]
+        //[Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AddRole([FromBody] string role)
         {
             var result = await _authService.AddRoleAsync(role);
@@ -38,9 +37,17 @@ namespace Study_Project.Controllers
         }
 
         [HttpPost("assign-role")]
+        //[Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AssignRole([FromBody] UserRole model)
         {
             var result = await _authService.AssignRoleAsync(model);
+            return Ok(result);
+        }
+
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetAllRoles()
+        {
+            var result = await _authService.GetAllRolesAsync();
             return Ok(result);
         }
     }

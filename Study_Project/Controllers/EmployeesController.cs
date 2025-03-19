@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Study_Project.Interfaces;
 using Study_Project.Models;
-using System.Collections.Generic;
 
 namespace Study_Project.Controllers
 {

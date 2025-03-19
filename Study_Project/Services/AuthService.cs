@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Study_Project.Interfaces;
-using Study_Project.Models;
-using System;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Study_Project.Models;
 
 namespace Study_Project.Services
 {
@@ -32,6 +28,7 @@ namespace Study_Project.Services
             if (!result.Succeeded)
                 throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
 
+            // Given User Role on registration
             await _userManager.AddToRoleAsync(user, "User");
             return new { message = "User registered successfully" };
         }
@@ -89,6 +86,16 @@ namespace Study_Project.Services
                 throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
 
             return new { message = "Role assigned successfully" };
+        }
+
+        public async Task<object> GetAllRolesAsync()
+        {
+            var roles = _roleManager.Roles.Select(r => r.Name).ToList();
+
+            if (roles == null || !roles.Any())
+                throw new Exception("No roles found");
+
+            return new { roles };
         }
     }
 }
