@@ -1,28 +1,32 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Runtime.InteropServices;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Study_Project.Interfaces;
-using Study_Project.Models;
+using Study_Project.Application.Commands;
+using Study_Project.Application.Queries;
+using Study_Project.Core.Entities;
 
-namespace Study_Project.Controllers
+namespace Study_Project.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IMediator _mediator;
 
-        public EmployeesController(IEmployeeService employeeService)
+        public EmployeesController(IMediator mediator)
         {
-            _employeeService = employeeService;
+            _mediator = mediator;
         }
 
         [HttpGet]
         [Authorize(Policy = "UserPolicy")]
         [ProducesResponseType(typeof(List<Employee>), 200)]
         [ProducesResponseType(403)]
-        public List<Employee> GetEmployees()
+        public async Task<IActionResult> GetEmployees()
         {
-            return _employeeService.GetEmployeeDetails();
+            var employees = await _mediator.Send(new GetEmployeeListQuery());
+            return Ok(employees);
         }
 
         [HttpGet("{id}")]
@@ -30,9 +34,9 @@ namespace Study_Project.Controllers
         [ProducesResponseType(typeof(Employee), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(403)]
-        public IActionResult GetEmployeeById(int id)
+        public async Task<IActionResult> GetEmployeeById(int id)
         {
-            var employee = _employeeService.GetEmployeeById(id);
+            var employee = await _mediator.Send(new GetEmployeeByIdQuery(id));
             if (employee == null)
                 return NotFound(new { message = "Employee not found" });
 
@@ -43,9 +47,10 @@ namespace Study_Project.Controllers
         [Authorize(Policy = "UserPolicy")]
         [ProducesResponseType(typeof(Employee), 201)]
         [ProducesResponseType(403)]
-        public Employee AddEmployee([FromBody] Employee emp)
+        public async Task<IActionResult> AddEmployee([FromBody] AddEmployeeCommand command)
         {
-            return _employeeService.AddEmployee(emp);
+            var employee = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id }, employee);
         }
 
         [HttpPut("{id}")]
@@ -53,24 +58,26 @@ namespace Study_Project.Controllers
         [ProducesResponseType(typeof(Employee), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(403)]
-        public IActionResult UpdateEmployee(int id, [FromBody] Employee emp)
+        public async Task<IActionResult> UpdateEmployee(int id, [FromBody] UpdateEmployeeCommand command)
         {
-            var updatedEmployee = _employeeService.UpdateEmployee(id, emp);
+            if (id != command.Id)
+                return BadRequest("Employee ID mismatch.");
+
+            var updatedEmployee = await _mediator.Send(command);
             if (updatedEmployee == null)
                 return NotFound(new { message = "Employee not found" });
 
             return Ok(updatedEmployee);
         }
 
-        
         [HttpDelete("{id}")]
         [Authorize(Policy = "AdminPolicy")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(403)]
-        public IActionResult DeleteEmployee(int id)
+        public async Task<IActionResult> DeleteEmployee(int id)
         {
-            var isDeleted = _employeeService.DeleteEmployee(id);
+            var isDeleted = await _mediator.Send(new DeleteEmployeeCommand(id));
             if (!isDeleted)
                 return NotFound(new { message = "Employee not found" });
 

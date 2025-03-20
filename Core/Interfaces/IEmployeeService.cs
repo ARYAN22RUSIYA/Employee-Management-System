@@ -1,4 +1,4 @@
-﻿using Study_Project.Models;
+﻿using Core.Entities;
 
 namespace Study_Project.Interfaces
 {

@@ -1,4 +1,4 @@
-﻿namespace Study_Project.Models
+﻿namespace Core.DTOs
 {
     public class UserRole
     {
