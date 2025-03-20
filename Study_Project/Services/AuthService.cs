@@ -53,6 +53,7 @@ namespace Study_Project.Services
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
                 expires: DateTime.UtcNow.AddMinutes(double.Parse(_configuration["Jwt:ExpiryMinutes"])),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(

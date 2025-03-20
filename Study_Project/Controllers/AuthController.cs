@@ -50,5 +50,12 @@ namespace Study_Project.Controllers
             var result = await _authService.GetAllRolesAsync();
             return Ok(result);
         }
+        /*
+        [HttpGet("debug-claims")]
+        public IActionResult DebugClaims()
+        {
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            return Ok(claims);
+        }*/
     }
 }
