@@ -1,12 +1,7 @@
-﻿using AspNetCoreRateLimit;
-using MediatR;
-using Study_Project.Application;
-using Study_Project.Core.Interfaces;
+﻿using Application.Features.Employee.Queries.GetEmployeeList;
+using AspNetCoreRateLimit;
 using Study_Project.Extensions;
-using Study_Project.Infrastructure.Persistence;
-using Study_Project.Infrastructure.Services;
 using Study_Project.Services;
-using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,13 +12,10 @@ builder.AddSerilogLogging();
 builder.Services.AddIdentityConfiguration(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
-// ✅ MediatR Registration (Points to Application Layer for Handlers)
-builder.Services.AddMediatR(typeof(Application.AssemblyReference).Assembly);
+// ✅ MediatR Registration - Register Application Layer (Handles all Queries/Commands)
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetEmployeeListHandler).Assembly));
 
-// ✅ Replace old EmployeeService DI
-// No longer needed: builder.Services.AddTransient<IEmployeeService, EmployeeService>();
-
-// ✅ Register AuthService if still needed
+// ✅ AuthService - Only if still used for Registration/Login/Role
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 // ✅ Custom Policies
@@ -38,14 +30,20 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-// ✅ Pipeline Setup
+// ✅ Correct Middleware Order
 app.UseHttpsRedirection();
+
+app.UseRouting();  // ❗ REQUIRED to enable routing
+
 app.UseGlobalExceptionMiddleware();
 app.UseCors("AllowSpecificOrigins");
 app.UseIpRateLimiting();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseSwaggerDocumentation();
 
-app.MapControllers();
+// ✅ Ensure controller mapping is inside UseEndpoints or MapControllers
+app.UseEndpoints(endpoints => endpoints.MapControllers());
+
 app.Run();

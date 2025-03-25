@@ -1,9 +1,6 @@
-﻿using MediatR;
-using Study_Project.Core.Entities;
-using Study_Project.Infrastructure.Persistence;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Core.Entities;
+using Infrastructure.Persistence;
+using MediatR;
 
 namespace Study_Project.Application.Features.Employees.Commands.CreateEmployee
 {

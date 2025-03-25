@@ -3,7 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using Study_Project.Models;
+using Microsoft.Extensions.Configuration;
+using Core.DTOs;
 
 namespace Study_Project.Services
 {
@@ -98,5 +99,7 @@ namespace Study_Project.Services
 
             return new { roles };
         }
+
+       
     }
 }

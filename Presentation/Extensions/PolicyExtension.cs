@@ -1,4 +1,6 @@
-﻿namespace Study_Project.Extensions
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Study_Project.Extensions
 {
     public static class PolicyExtension
     {

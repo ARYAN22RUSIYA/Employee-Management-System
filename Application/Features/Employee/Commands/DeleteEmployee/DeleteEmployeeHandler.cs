@@ -1,7 +1,5 @@
-﻿using MediatR;
-using Study_Project.Infrastructure.Persistence;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Infrastructure.Persistence;
+using MediatR;
 
 namespace Study_Project.Application.Features.Employees.Commands.DeleteEmployee
 {

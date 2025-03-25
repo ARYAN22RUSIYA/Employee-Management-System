@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Study_Project.Core.Entities;
+﻿using Core.Entities;
+using MediatR;
 
 namespace Study_Project.Application.Features.Employees.Commands.CreateEmployee
 {

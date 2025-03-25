@@ -1,11 +1,13 @@
 ﻿using MediatR;
-using Core.Entities;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Features.Employee.Queries.GetEmployeeList
 {
-    public class GetEmployeeListHandler : IRequestHandler<GetEmployeeListQuery, List<Employee>>
+    public class GetEmployeeListHandler : IRequestHandler<GetEmployeeListQuery, List<Core.Entities.Employee>>
     {
         private readonly JwtContext _context;
 
@@ -14,7 +16,7 @@ namespace Application.Features.Employee.Queries.GetEmployeeList
             _context = context;
         }
 
-        public async Task<List<Employee>> Handle(GetEmployeeListQuery request, CancellationToken cancellationToken)
+        public async Task<List<Core.Entities.Employee>> Handle(GetEmployeeListQuery request, CancellationToken cancellationToken)
         {
             return await _context.Employees.ToListAsync(cancellationToken);
         }

@@ -1,10 +1,13 @@
-﻿namespace Study_Project.Extensions
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Study_Project.Extensions
 {
     public static class CorsExtension
     {
         public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
         {
-            var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>(); 
+            var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
 
             if (allowedOrigins == null || allowedOrigins.Length == 0)
             {

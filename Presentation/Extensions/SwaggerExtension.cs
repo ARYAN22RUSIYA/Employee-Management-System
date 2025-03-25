@@ -1,4 +1,6 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace Study_Project.Extensions
 {
@@ -8,12 +10,17 @@ namespace Study_Project.Extensions
         {
             services.AddSwaggerGen(opt =>
             {
-                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "Employee Management System", Version = "v1" });
+                opt.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Employee Management System",
+                    Version = "v1",
+                    Description = "API for managing employees",
+                });
 
                 opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "Please enter token",
+                    Description = "Enter JWT Bearer token **_only_**",
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
                     BearerFormat = "JWT",
@@ -42,7 +49,12 @@ namespace Study_Project.Extensions
         public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app)
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(c =>
+            {
+                // ✅ Explicitly set Swagger JSON endpoint
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Employee Management System v1");
+                c.RoutePrefix = string.Empty; // Makes Swagger UI available at root URL
+            });
             return app;
         }
     }

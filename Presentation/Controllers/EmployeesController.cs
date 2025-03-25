@@ -1,12 +1,14 @@
-﻿using System.Runtime.InteropServices;
+﻿using Application.Features.Employee.Queries.GetEmployeeList;
+using Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Study_Project.Application.Commands;
-using Study_Project.Application.Queries;
-using Study_Project.Core.Entities;
+using Study_Project.Application.Features.Employees.Commands.CreateEmployee;
+using Study_Project.Application.Features.Employees.Commands.DeleteEmployee;
+using Study_Project.Application.Features.Employees.Commands.UpdateEmployee;
+using Study_Project.Application.Features.Employees.Queries.GetEmployeeById;
 
-namespace Study_Project.Presentation.Controllers
+namespace Study_Project.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -47,10 +49,10 @@ namespace Study_Project.Presentation.Controllers
         [Authorize(Policy = "UserPolicy")]
         [ProducesResponseType(typeof(Employee), 201)]
         [ProducesResponseType(403)]
-        public async Task<IActionResult> AddEmployee([FromBody] AddEmployeeCommand command)
+        public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeCommand command)
         {
-            var employee = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id }, employee);
+            var createdEmployee = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetEmployeeById), new { id = createdEmployee.Id }, createdEmployee);
         }
 
         [HttpPut("{id}")]
@@ -60,9 +62,7 @@ namespace Study_Project.Presentation.Controllers
         [ProducesResponseType(403)]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] UpdateEmployeeCommand command)
         {
-            if (id != command.Id)
-                return BadRequest("Employee ID mismatch.");
-
+            command.Id = id;
             var updatedEmployee = await _mediator.Send(command);
             if (updatedEmployee == null)
                 return NotFound(new { message = "Employee not found" });
@@ -77,8 +77,8 @@ namespace Study_Project.Presentation.Controllers
         [ProducesResponseType(403)]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            var isDeleted = await _mediator.Send(new DeleteEmployeeCommand(id));
-            if (!isDeleted)
+            var result = await _mediator.Send(new DeleteEmployeeCommand(id));
+            if (!result)
                 return NotFound(new { message = "Employee not found" });
 
             return Ok(new { message = "Employee deleted successfully" });

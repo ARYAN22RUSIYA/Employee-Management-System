@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Study_Project.Models;
 
-namespace Study_Project.Context
+namespace Infrastructure.Persistence
 {
     public class JwtContext : IdentityDbContext<IdentityUser>
     {
-        public JwtContext(DbContextOptions options) : base(options) { }
-        public DbSet<Employee> Employees { get; set; }
+        public JwtContext(DbContextOptions<JwtContext> options) : base(options) { }
+
+        public DbSet<Core.Entities.Employee> Employees { get; set; }
     }
 }

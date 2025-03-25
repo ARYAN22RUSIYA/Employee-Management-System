@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Study_Project.Models;
+﻿using Core.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Study_Project.Controllers
 {

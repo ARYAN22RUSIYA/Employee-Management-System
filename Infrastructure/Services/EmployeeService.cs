@@ -1,6 +1,6 @@
-﻿using Study_Project.Context;
+﻿using Core.Entities;
+using Infrastructure.Persistence;
 using Study_Project.Interfaces;
-using Study_Project.Models;
 
 namespace Study_Project.Services
 {
@@ -58,5 +58,7 @@ namespace Study_Project.Services
             _context.SaveChanges();
             return true;
         }
+
+      
     }
 }
