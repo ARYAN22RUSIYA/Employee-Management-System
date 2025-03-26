@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Serilog;
+﻿using Serilog;
 
 namespace Study_Project.Extensions
 {
