@@ -1,13 +1,10 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Features.Auth.Commands.LoginUser
 {

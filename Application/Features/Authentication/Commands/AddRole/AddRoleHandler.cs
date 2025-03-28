@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Features.Auth.Commands.AddRole
+namespace Application.Features.Authentication.Commands.AddRole
 {
     public class AddRoleHandler : IRequestHandler<AddRoleCommand, string>
     {

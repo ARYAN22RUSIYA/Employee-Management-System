@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Auth.Commands.AssignRole
+namespace Application.Authentication.Commands.AssignRole
 {
     public class AssignRoleCommandHandler : IRequestHandler<AssignRoleCommand, string>
     {

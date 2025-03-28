@@ -1,8 +1,6 @@
-﻿using Application.Auth.Commands.AssignRole;
-using Application.Auth.Queries.GetRoles;
-using Application.Features.Auth.Commands.AddRole;
-using Application.Features.Auth.Commands.LoginUser;
-using Application.Features.Auth.Commands.RegisterUser;
+﻿using Application.Auth.Queries.GetRoles;
+using Application.Authentication.Commands.AssignRole;
+using Application.Features.Authentication.Commands.AddRole;
 using Core.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

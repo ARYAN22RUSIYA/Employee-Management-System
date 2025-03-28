@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Application.Auth.Commands.AssignRole
+namespace Application.Authentication.Commands.AssignRole
 {
     public class AssignRoleCommand : IRequest<string>
     {
