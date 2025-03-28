@@ -1,7 +1,6 @@
-﻿using Application.Features.Employee.Queries.GetEmployeeList;
+﻿using Application.DependencyInjection;
 using AspNetCoreRateLimit;
 using Study_Project.Extensions;
-using Study_Project.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +11,9 @@ builder.AddSerilogLogging();
 builder.Services.AddIdentityConfiguration(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
-// ✅ MediatR Registration - Register Application Layer (Handles all Queries/Commands)
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetEmployeeListHandler).Assembly));
+// ✅ Register Application Layer Services (CQRS - Commands & Queries)
+builder.Services.AddApplicationServices();
 
-// ✅ AuthService - Only if still used for Registration/Login/Role
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 // ✅ Custom Policies
 builder.Services.AddCustomAuthorization();
@@ -32,9 +29,6 @@ var app = builder.Build();
 
 // ✅ Correct Middleware Order
 app.UseHttpsRedirection();
-
-app.UseRouting();  // ❗ REQUIRED to enable routing
-
 app.UseGlobalExceptionMiddleware();
 app.UseCors("AllowSpecificOrigins");
 app.UseIpRateLimiting();
@@ -43,7 +37,7 @@ app.UseAuthorization();
 
 app.UseSwaggerDocumentation();
 
-// ✅ Ensure controller mapping is inside UseEndpoints or MapControllers
-app.UseEndpoints(endpoints => endpoints.MapControllers());
+// ✅ Correct Mapping for Minimal API
+app.MapControllers();
 
 app.Run();

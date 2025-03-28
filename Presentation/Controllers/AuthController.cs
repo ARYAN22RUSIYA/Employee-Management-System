@@ -24,16 +24,18 @@ namespace Study_Project.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
-            var result = await _mediator.Send(new RegisterUserCommand(model));
+            var result = await _mediator.Send(new RegisterUserCommand(model.Username, model.Email, model.Password));
             return Ok(result);
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login model)
         {
-            var result = await _mediator.Send(new LoginUserCommand(model));
+            var result = await _mediator.Send(new LoginUserCommand(model.Username, model.Password));
             return Ok(result);
         }
+
 
         [HttpPost("add-role")]
         //[Authorize(Policy = "AdminPolicy")]
@@ -44,12 +46,12 @@ namespace Study_Project.Controllers
         }
 
         [HttpPost("assign-role")]
-        //[Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AssignRole([FromBody] UserRole model)
         {
-            var result = await _mediator.Send(new AssignRoleCommand(model));
+            var result = await _mediator.Send(new AssignRoleCommand(model.Username, model.Role));
             return Ok(result);
         }
+
 
         [HttpGet("roles")]
         public async Task<IActionResult> GetAllRoles()
