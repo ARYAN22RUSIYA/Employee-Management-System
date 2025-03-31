@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System.Collections.Generic;
 
-namespace Application.Features.Employee.Queries.GetEmployeeList
+namespace Study_Project.Application.Features.Employees.Queries.GetEmployeeList
 {
     public class GetEmployeeListQuery : IRequest<List<Core.Entities.Employee>>
     {

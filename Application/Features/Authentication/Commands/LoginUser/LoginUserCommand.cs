@@ -1,5 +1,7 @@
 ﻿using MediatR;
 
+namespace Application.Features.Authentication.Commands.LoginUser;
+
 public class LoginUserCommand : IRequest<string>
 {
     public string Username { get; }

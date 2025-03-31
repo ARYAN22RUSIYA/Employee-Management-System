@@ -1,4 +1,4 @@
-﻿using Application.Features.Employee.Queries.GetEmployeeList;
+﻿
 using Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Study_Project.Application.Features.Employees.Commands.CreateEmployee;
 using Study_Project.Application.Features.Employees.Commands.DeleteEmployee;
 using Study_Project.Application.Features.Employees.Commands.UpdateEmployee;
+using Study_Project.Application.Features.Employees.Queries.GetEmployeeList;
 using Study_Project.Application.Features.Employees.Queries.GetEmployeeById;
 
 namespace Study_Project.Controllers

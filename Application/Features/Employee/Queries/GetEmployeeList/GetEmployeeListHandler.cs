@@ -1,11 +1,8 @@
-﻿using MediatR;
-using Infrastructure.Persistence;
+﻿using Infrastructure.Persistence;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Application.Features.Employee.Queries.GetEmployeeList
+namespace Study_Project.Application.Features.Employees.Queries.GetEmployeeList
 {
     public class GetEmployeeListHandler : IRequestHandler<GetEmployeeListQuery, List<Core.Entities.Employee>>
     {

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 
+namespace Application.Features.Authentication.Commands.RegisterUser;
 public class RegisterUserCommand : IRequest<string>
 {
     public string Username { get; }

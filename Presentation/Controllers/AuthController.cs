@@ -1,9 +1,12 @@
-﻿using Application.Auth.Queries.GetRoles;
-using Application.Authentication.Commands.AssignRole;
-using Application.Features.Authentication.Commands.AddRole;
+﻿
 using Core.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Application.Features.Authentication.Queries.GetRoles;
+using Application.Features.Authentication.Commands.AssignRole;
+using Application.Features.Authentication.Commands.AddRole;
+using Application.Features.Authentication.Commands.LoginUser;
+using Application.Features.Authentication.Commands.RegisterUser;
 
 
 namespace Study_Project.Controllers
