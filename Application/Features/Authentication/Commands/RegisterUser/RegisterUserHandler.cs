@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Features.Authentication.Commands.RegisterUser;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Features.Auth.Commands.RegisterUser
