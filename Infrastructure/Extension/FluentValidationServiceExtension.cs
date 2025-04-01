@@ -2,6 +2,7 @@
 using Infrastructure.Behavior;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Application;
 
 namespace Infrastructure.Extensions
 {
@@ -9,7 +10,10 @@ namespace Infrastructure.Extensions
     {
         public static IServiceCollection AddFluentValidationServices(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(typeof(FluentValidationServiceExtension).Assembly);
+            // Register all validators from Application Project
+            services.AddValidatorsFromAssembly(typeof(AssemblyReference).Assembly);
+
+            // Register FluentValidation Behavior Pipeline
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehavior<,>));
 
             return services;
