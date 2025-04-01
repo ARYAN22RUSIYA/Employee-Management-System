@@ -1,19 +1,14 @@
-﻿using FluentValidation;
-using Infrastructure.Behavior;
+﻿using Infrastructure.Behavior;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Application;
 
 namespace Infrastructure.Extensions
 {
     public static class FluentValidationServiceExtension
     {
-        public static IServiceCollection AddFluentValidationServices(this IServiceCollection services)
+        public static IServiceCollection AddFluentValidationPipeline(this IServiceCollection services)
         {
-            // Register all validators from Application Project
-            services.AddValidatorsFromAssembly(typeof(AssemblyReference).Assembly);
-
-            // Register FluentValidation Behavior Pipeline
+            // Register FluentValidation pipeline behavior
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehavior<,>));
 
             return services;

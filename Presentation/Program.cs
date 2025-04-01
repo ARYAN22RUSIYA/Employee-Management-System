@@ -10,7 +10,7 @@ builder.AddSerilogLogging();
 builder.Services.AddIdentityConfiguration(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddApplicationServices();
-builder.Services.AddFluentValidationServices();
+builder.Services.AddFluentValidationPipeline();
 builder.Services.AddCustomAuthorization();
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddCorsPolicy(builder.Configuration);
