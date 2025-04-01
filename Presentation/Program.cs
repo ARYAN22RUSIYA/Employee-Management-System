@@ -1,5 +1,6 @@
 ﻿using Application.DependencyInjection;
 using AspNetCoreRateLimit;
+using Infrastructure.Extensions;
 using Study_Project.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
