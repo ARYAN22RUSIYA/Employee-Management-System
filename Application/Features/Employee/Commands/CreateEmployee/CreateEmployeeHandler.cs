@@ -1,23 +1,27 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
 using Core.Entities;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Study_Project.Application.DTOs;
 
 namespace Study_Project.Application.Features.Employees.Commands.CreateEmployee
 {
-    public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, Employee>
+    public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeCommand, EmployeeDto>
     {
         private readonly JwtContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
 
-        public CreateEmployeeHandler(JwtContext context, IHttpContextAccessor httpContextAccessor)
+        public CreateEmployeeHandler(JwtContext context, IHttpContextAccessor httpContextAccessor , IMapper mapper)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
 
-        public async Task<Employee> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
+        public async Task<EmployeeDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
         {
             var user = _httpContextAccessor.HttpContext?.User;
             var username = user?.FindFirst(ClaimTypes.Name)?.Value
@@ -38,7 +42,7 @@ namespace Study_Project.Application.Features.Employees.Commands.CreateEmployee
 
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync(cancellationToken);
-            return employee;
+            return _mapper.Map<EmployeeDto>(employee);
         }
 
         private int CalculateAge(DateTime dob)

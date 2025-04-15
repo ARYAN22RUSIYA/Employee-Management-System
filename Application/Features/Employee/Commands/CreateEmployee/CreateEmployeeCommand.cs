@@ -1,9 +1,9 @@
-﻿using Core.Entities;
+﻿using Study_Project.Application.DTOs;
 using MediatR;
 
 namespace Study_Project.Application.Features.Employees.Commands.CreateEmployee
 {
-    public class CreateEmployeeCommand : IRequest<Employee>
+    public class CreateEmployeeCommand : IRequest<EmployeeDto>
     {
         public string Name { get; set; }
         public DateTime Dob { get; set; }

@@ -1,9 +1,9 @@
-﻿using Core.Entities;
+﻿using Study_Project.Application.DTOs;
 using MediatR;
 
 namespace Study_Project.Application.Features.Employees.Queries.GetEmployeeById
 {
-    public class GetEmployeeByIdQuery : IRequest<Employee>
+    public class GetEmployeeByIdQuery : IRequest<EmployeeDto>
     {
         public int Id { get; set; }
 

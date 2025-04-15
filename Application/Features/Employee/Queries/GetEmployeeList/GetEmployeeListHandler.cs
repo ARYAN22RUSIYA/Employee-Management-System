@@ -1,21 +1,26 @@
-﻿using Infrastructure.Persistence;
+﻿using AutoMapper;
+using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Study_Project.Application.DTOs;
 
 namespace Study_Project.Application.Features.Employees.Queries.GetEmployeeList
 {
-    public class GetEmployeeListHandler : IRequestHandler<GetEmployeeListQuery, List<Core.Entities.Employee>>
+    public class GetEmployeeListHandler : IRequestHandler<GetEmployeeListQuery, List<EmployeeDto>>
     {
         private readonly JwtContext _context;
+        private readonly IMapper _mapper;
 
-        public GetEmployeeListHandler(JwtContext context)
+        public GetEmployeeListHandler(JwtContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<List<Core.Entities.Employee>> Handle(GetEmployeeListQuery request, CancellationToken cancellationToken)
+        public async Task<List<EmployeeDto>> Handle(GetEmployeeListQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Employees.ToListAsync(cancellationToken);
+            var employees = await _context.Employees.ToListAsync(cancellationToken);
+            return _mapper.Map<List<EmployeeDto>>(employees);
         }
     }
 }
