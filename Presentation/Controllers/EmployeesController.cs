@@ -50,6 +50,7 @@ namespace Study_Project.Controllers
         [Authorize(Policy = "UserPolicy")]
         [ProducesResponseType(typeof(Employee), 201)]
         [ProducesResponseType(403)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeCommand command)
         {
             var createdEmployee = await _mediator.Send(command);

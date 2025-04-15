@@ -17,6 +17,7 @@ builder.Services.AddCorsPolicy(builder.Configuration);
 builder.Services.AddRateLimiting(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
