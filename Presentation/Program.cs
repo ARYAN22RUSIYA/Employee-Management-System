@@ -18,6 +18,7 @@ builder.Services.AddRateLimiting(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddAutoMapperServices();
 
 var app = builder.Build();
 
