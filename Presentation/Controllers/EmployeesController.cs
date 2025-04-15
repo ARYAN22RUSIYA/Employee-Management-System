@@ -1,5 +1,4 @@
-﻿
-using Core.Entities;
+﻿using Study_Project.Application.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +23,7 @@ namespace Study_Project.Controllers
 
         [HttpGet]
         [Authorize(Policy = "UserPolicy")]
-        [ProducesResponseType(typeof(List<Employee>), 200)]
+        [ProducesResponseType(typeof(List<EmployeeDto>), 200)]
         [ProducesResponseType(403)]
         public async Task<IActionResult> GetEmployees()
         {
@@ -34,7 +33,7 @@ namespace Study_Project.Controllers
 
         [HttpGet("{id}")]
         [Authorize(Policy = "UserPolicy")]
-        [ProducesResponseType(typeof(Employee), 200)]
+        [ProducesResponseType(typeof(EmployeeDto), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(403)]
         public async Task<IActionResult> GetEmployeeById(int id)
@@ -48,7 +47,7 @@ namespace Study_Project.Controllers
 
         [HttpPost]
         [Authorize(Policy = "UserPolicy")]
-        [ProducesResponseType(typeof(Employee), 201)]
+        [ProducesResponseType(typeof(EmployeeDto), 201)]
         [ProducesResponseType(403)]
         [ProducesResponseType(401)]
         public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeCommand command)
@@ -59,7 +58,7 @@ namespace Study_Project.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminPolicy")]
-        [ProducesResponseType(typeof(Employee), 200)]
+        [ProducesResponseType(typeof(EmployeeDto), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(403)]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] UpdateEmployeeCommand command)
