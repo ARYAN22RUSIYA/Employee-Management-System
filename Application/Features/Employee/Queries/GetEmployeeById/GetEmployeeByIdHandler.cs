@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Study_Project.Application.DTOs;

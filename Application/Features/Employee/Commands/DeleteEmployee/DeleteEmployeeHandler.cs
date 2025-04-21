@@ -1,5 +1,4 @@
-﻿using Infrastructure.Persistence;
-using MediatR;
+﻿using MediatR;
 
 namespace Study_Project.Application.Features.Employees.Commands.DeleteEmployee
 {

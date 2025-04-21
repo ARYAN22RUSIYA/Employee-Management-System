@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
 using Core.Entities;
-using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Study_Project.Application.DTOs;
