@@ -7,6 +7,7 @@ using Study_Project.Application.Features.Employees.Commands.DeleteEmployee;
 using Study_Project.Application.Features.Employees.Commands.UpdateEmployee;
 using Study_Project.Application.Features.Employees.Queries.GetEmployeeList;
 using Study_Project.Application.Features.Employees.Queries.GetEmployeeById;
+using Study_Project.Application.Features.Documents.Commands.UploadDocument;
 
 namespace Study_Project.Controllers
 {
@@ -55,6 +56,21 @@ namespace Study_Project.Controllers
             var createdEmployee = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetEmployeeById), new { id = createdEmployee.Id }, createdEmployee);
         }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadDocument([FromForm] UploadDocumentDto dto)
+        {
+            var command = new UploadDocumentCommand
+            {
+                EmployeeId = dto.EmployeeId,
+                File = dto.File
+            };
+
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+
 
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminPolicy")]
