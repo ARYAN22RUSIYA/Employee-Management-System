@@ -9,6 +9,7 @@ namespace Study_Project.Application.Mappings
         public EmployeeProfile()
         {
             CreateMap<Employee, EmployeeDto>();
+            CreateMap<Document, DocumentDto>();
         }
     }
 }

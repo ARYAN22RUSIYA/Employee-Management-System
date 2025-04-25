@@ -8,6 +8,7 @@ using Study_Project.Application.Features.Employees.Commands.UpdateEmployee;
 using Study_Project.Application.Features.Employees.Queries.GetEmployeeList;
 using Study_Project.Application.Features.Employees.Queries.GetEmployeeById;
 using Study_Project.Application.Features.Documents.Commands.UploadDocument;
+using Study_Project.Application.Features.Documents.Queries;
 
 namespace Study_Project.Controllers
 {
@@ -57,7 +58,11 @@ namespace Study_Project.Controllers
             return CreatedAtAction(nameof(GetEmployeeById), new { id = createdEmployee.Id }, createdEmployee);
         }
 
-        [HttpPost("upload")]
+        [HttpPost("upload-document")]
+        [Authorize(Policy = "UserPolicy")]
+        [ProducesResponseType(typeof(UploadDocumentDto), 201)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> UploadDocument([FromForm] UploadDocumentDto dto)
         {
             var command = new UploadDocumentCommand
@@ -70,7 +75,29 @@ namespace Study_Project.Controllers
             return Ok(result);
         }
 
+        [HttpGet("download-document")]
+        [Authorize(Policy = "UserPolicy")]
+        [ProducesResponseType(typeof(FileDownloadDto), 201)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(401)]
+        public async Task<IActionResult> DownloadDocument(int employeeId, [FromQuery] string fileName)
+        {
+            var query = new GetEmployeeDocumentQuery
+            {
+                EmployeeId = employeeId,
+                FileName = fileName
+            };
 
+            var result = await _mediator.Send(query);
+            return File(result.FileContent, result.ContentType, result.FileName);
+        }
+
+        [HttpGet("documents/{employeeId}")]
+        public async Task<IActionResult> GetDocumentsByEmployee(int employeeId)
+        {
+            var result = await _mediator.Send(new GetDocumentsByEmployeeQuery(employeeId));
+            return Ok(result);
+        }
 
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminPolicy")]
