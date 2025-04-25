@@ -20,7 +20,7 @@ public class UploadDocumentHandler : IRequestHandler<UploadDocumentCommand, bool
         if (employee == null)
             return false;
 
-        var uploadsFolder = _configuration["FileStorageSettings:Path"];
+        var uploadsFolder = _configuration["FileStorage:UploadPath"];
         if (string.IsNullOrWhiteSpace(uploadsFolder))
             throw new InvalidOperationException("File storage path is not configured.");
 
