@@ -9,6 +9,9 @@ using Study_Project.Application.Features.Employees.Queries.GetEmployeeList;
 using Study_Project.Application.Features.Employees.Queries.GetEmployeeById;
 using Study_Project.Application.Features.Documents.Commands.UploadDocument;
 using Study_Project.Application.Features.Documents.Queries;
+using Microsoft.AspNetCore.Identity;
+using Application.Features.Documents.Events;
+using Core.Interface;
 
 namespace Study_Project.Controllers
 {
@@ -17,10 +20,12 @@ namespace Study_Project.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public EmployeesController(IMediator mediator)
+        public EmployeesController(IMediator mediator, UserManager<IdentityUser> userManager)
         {
             _mediator = mediator;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -58,6 +63,7 @@ namespace Study_Project.Controllers
             return CreatedAtAction(nameof(GetEmployeeById), new { id = createdEmployee.Id }, createdEmployee);
         }
 
+
         [HttpPost("upload-document")]
         [Authorize(Policy = "UserPolicy")]
         [ProducesResponseType(typeof(UploadDocumentDto), 201)]
@@ -72,8 +78,33 @@ namespace Study_Project.Controllers
             };
 
             var result = await _mediator.Send(command);
+
+            // Fetch employee details
+            var employee = await _mediator.Send(new GetEmployeeByIdQuery(dto.EmployeeId));
+            if (employee == null)
+                return NotFound(new { message = "Employee not found" });
+
+            // Fetch username from claims
+            var username = User.Identity?.Name;
+            if (string.IsNullOrEmpty(username))
+                return Unauthorized(new { message = "User identity not found in claims" });
+
+            // Fetch email from Identity using username
+            var identityUser = await _userManager.FindByNameAsync(username);
+            if (identityUser == null)
+                return NotFound(new { message = "User not found in Identity" });
+
+            // Publish notification for email
+            await _mediator.Publish(new DocumentUploadedNotification(
+                employee.Id,
+                identityUser.Email,
+                employee.Name,
+                dto.File.FileName
+            ));
+
             return Ok(result);
         }
+
 
         [HttpGet("download-document")]
         [Authorize(Policy = "UserPolicy")]
@@ -127,5 +158,21 @@ namespace Study_Project.Controllers
 
             return Ok(new { message = "Employee deleted successfully" });
         }
+
+
+        [HttpPost("test-sendgrid")]
+        public async Task<IActionResult> TestSendGrid([FromServices] IEmailService emailService)
+        {
+            await emailService.SendEmailAsync(
+                "your@email.com",
+                "Test Subject",
+                "Test body",
+                null,
+                "your-template-id",
+                new { name = "Test", fileName = "Test.txt" }
+            );
+            return Ok("Sent");
+        }
+
     }
 }

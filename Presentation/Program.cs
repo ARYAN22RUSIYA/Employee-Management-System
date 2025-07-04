@@ -1,5 +1,7 @@
 ﻿using Application.DependencyInjection;
 using AspNetCoreRateLimit;
+using Core.Interface;
+using Hangfire;
 using Infrastructure.Extensions;
 using Study_Project.Extensions;
 
@@ -19,6 +21,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapperServices();
+builder.Services.AddHangfire(x => x.UseInMemoryStorage());
+builder.Services.AddHangfireServer();
+builder.Services.AddTransient<IEmailService, SendGridEmailService>();
+builder.Services.AddScoped<IBackgroundJobService, BackgroundJobService>();
+
+
 
 var app = builder.Build();
 
@@ -28,6 +36,8 @@ app.UseCors("AllowSpecificOrigins");
 app.UseIpRateLimiting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseHangfireDashboard();
+
 
 app.UseSwaggerDocumentation();
 
