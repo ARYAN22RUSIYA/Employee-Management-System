@@ -3,6 +3,7 @@ using AspNetCoreRateLimit;
 using Core.Interface;
 using Hangfire;
 using Infrastructure.Extensions;
+using Infrastructure.DependencyInjection;
 using Study_Project.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,9 +24,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapperServices();
 builder.Services.AddHangfire(x => x.UseInMemoryStorage());
 builder.Services.AddHangfireServer();
-builder.Services.AddTransient<IEmailService, SendGridEmailService>();
-builder.Services.AddScoped<IBackgroundJobService, BackgroundJobService>();
-
+// Register infrastructure services (repositories, email, background jobs)
+builder.Services.AddInfrastructureServices();
 
 
 var app = builder.Build();
