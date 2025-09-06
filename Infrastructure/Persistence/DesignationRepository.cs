@@ -20,13 +20,13 @@ namespace Infrastructure.Persistence
             _context = context;
         }
 
-        // Interface requirement (not used for Designation, which uses int as key)
-        //public Task<Designation> GetByIdAsync(Guid id)
-        //{
-        //    throw new NotImplementedException("Use GetByIdAsync(int id) for Designation.");
-        //}
+       // Interface requirement(not used for Designation, which uses int as key)
+        public Task<Designation> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException("Use GetByIdAsync(int id) for Designation.");
+        }
 
-        public async Task<Designation> GetByIdAsync(Guid id)
+        public async Task<Designation> GetByIdAsync(int id)
         {
             // Only return non-deleted designations
             return await _context.Designations.Include(d => d.Employees)
